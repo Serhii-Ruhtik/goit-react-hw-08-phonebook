@@ -6,7 +6,6 @@ export const FormField = styled(Form)`
   justify-content: space-between;
   flex-direction: column;
   padding: 20px 0;
-  width: 560px;
 `;
 
 export const Label = styled.label`
@@ -44,9 +43,13 @@ export const FormInput = styled(Field)`
 `;
 
 export const Button = styled.button`
-  display: block;
-  width: 200px;
-  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 12px 12px;
+  margin-bottom: 20px;
+  margin-top: 50px;
   margin-left: auto;
   margin-right: auto;
   font-weight: 700;
@@ -59,6 +62,34 @@ export const Button = styled.button`
   cursor: pointer;
   box-shadow: 0px 4px 4px rgb(0 0 0 / 15%);
   border-radius: 4px;
+  border-color: transparent;
+  transition-property: background-color;
+  transition-duration: 250ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    background-color: #188ce8;
+  }
+`;
+
+export const AddBtn = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  padding: 12px 12px;
+  margin-bottom: 20px;
+
+  font-weight: 700;
+  font-size: 20px;
+  text-align: center;
+  letter-spacing: 0.06em;
+  background-color: #2196f3;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0px 4px 4px rgb(0 0 0 / 15%);
+  border-radius: 8px;
   border-color: transparent;
   transition-property: background-color;
   transition-duration: 250ms;

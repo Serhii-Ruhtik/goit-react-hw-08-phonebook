@@ -3,3 +3,19 @@
   font-weight: 700;
   color: #000;
 }
+
+.container {
+  width: 100%;
+  padding: 50px 15px;
+  margin-left: auto;
+  margin-right: auto;
+  min-width: 320px;
+  max-width: 1200px;
+}
+
+.section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}

@@ -1,33 +1,59 @@
-import { useSelector } from 'react-redux';
-import { ToastContainer } from 'react-toastify';
+import { lazy, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { Oval } from 'react-loader-spinner';
-import { useGetContactsQuery } from '../../redux/contactsApi';
-import ContactList from '../ContactList/ContactList';
-import AddContact from '../AddContact/AddContact';
-import Filter from '../Filter/Filter';
+import { ToastContainer } from 'react-toastify';
 
-import { selectFilterValue } from '../../redux/selectors';
+import { refreshCurrentUser } from '../../redux/user/operations';
+import { selectIsRefreshing } from '../../redux/user/selectors';
 
-import css from './App.module.css';
+import { PublicRoute } from '../../components/PublicRoute';
+import { PrivateRoute } from '../../components/PrivateRoute';
+
+import SharedLayout from '../SharedLayout/SharedLayout';
+
+import css from '../App/App.module.css';
 import 'react-toastify/dist/ReactToastify.css';
 
+const Register = lazy(() =>
+  import('pages/Register').then(module => ({
+    ...module,
+    default: module.Register,
+  }))
+);
+
+const Login = lazy(() =>
+  import('pages/Login').then(module => ({
+    ...module,
+    default: module.Login,
+  }))
+);
+
+const Contacts = lazy(() =>
+  import('pages/Contacts').then(module => ({
+    ...module,
+    default: module.Contacts,
+  }))
+);
+
+const Home = lazy(() =>
+  import('../../pages/Home/Home').then(module => ({
+    ...module,
+    default: module.Home,
+  }))
+);
+
 const App = () => {
-  const filterValue = useSelector(selectFilterValue);
-  const { data, isLoading, error } = useGetContactsQuery();
-  const visibleContacts = data
-    ? data.filter(item => {
-        return item.name.toLowerCase().includes(filterValue);
-      })
-    : [];
+  const isRefreshing = useSelector(selectIsRefreshing);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(refreshCurrentUser());
+  }, [dispatch]);
 
   return (
-    <div className={css.container}>
-      <p className={css.sectionHeading}>Phonebook</p>
-      <AddContact visibleContacts={visibleContacts} />
-      <p className={css.sectionHeading}>Contacts</p>
-      <Filter />
-      {!isLoading && <ContactList visibleContacts={visibleContacts} />}
-      {isLoading && !error && (
+    <div className={css.section}>
+      {isRefreshing ? (
         <Oval
           ariaLabel="loading-indicator"
           height={100}
@@ -38,6 +64,31 @@ const App = () => {
           secondaryColor="white"
           wrapperStyle={{ display: 'flex', justifyContent: 'center' }}
         />
+      ) : (
+        <Routes>
+          <Route path="/" element={<SharedLayout />}>
+            <Route index element={<Home />} />
+            <Route
+              path="/register"
+              element={
+                <PublicRoute component={<Register />} redirectTo="/contacts" />
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <PublicRoute component={<Login />} redirectTo="/contacts" />
+              }
+            />
+            <Route
+              path="/contacts"
+              element={
+                <PrivateRoute component={<Contacts />} redirectTo="/login" />
+              }
+            />
+          </Route>
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
       )}
       <ToastContainer />
     </div>
