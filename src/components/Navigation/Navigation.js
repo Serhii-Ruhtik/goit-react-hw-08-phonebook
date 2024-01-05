@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { selectIsLoggedIn } from 'redux/user/selectors';
+import { selectIsLoggedIn } from '../../redux/user/selectors';
 import { Link, Nav } from './Navigation.styled';
 
 export function Navigation() {

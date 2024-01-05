@@ -1,7 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { logOutUser } from 'redux/user/operations';
-import { selectIsLoading, selectUser } from 'redux/user/selectors';
-import { ExtraText, SubmitBtn, Text, Wrapper } from './UserMenu.styled';
+import { logOutUser } from '../../redux/user/operations';
+import { selectIsLoading, selectUser } from '../../redux/user/selectors';
+import {
+  ExtraText,
+  SubmitBtn,
+  Text,
+  Wrapper,
+} from '../UserMenu/UserMenu.styled';
 
 export function UserMenu() {
   const { name } = useSelector(selectUser);
