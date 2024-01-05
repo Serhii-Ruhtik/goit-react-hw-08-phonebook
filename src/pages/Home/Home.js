@@ -3,7 +3,7 @@ import Box from 'Box';
 import { Container } from 'components/AppBar/AppBar.styled';
 import { Text } from './Home.styled';
 
-export const Home = () => {
+const Home = () => {
   return (
     <Container>
       <Box ml="auto" mr="auto" pt="32px" pb="32px">
@@ -17,3 +17,4 @@ export const Home = () => {
     </Container>
   );
 };
+export default Home;
