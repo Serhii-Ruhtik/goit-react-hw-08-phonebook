@@ -15,33 +15,10 @@ import SharedLayout from '../SharedLayout/SharedLayout';
 import css from '../App/App.module.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Register = lazy(() =>
-  import('pages/Register').then(module => ({
-    ...module,
-    default: module.Register,
-  }))
-);
-
-const Login = lazy(() =>
-  import('pages/Login').then(module => ({
-    ...module,
-    default: module.Login,
-  }))
-);
-
-const Contacts = lazy(() =>
-  import('pages/Contacts').then(module => ({
-    ...module,
-    default: module.Contacts,
-  }))
-);
-
-const Home = lazy(() =>
-  import('../../pages/Home/Home').then(module => ({
-    ...module,
-    default: module.Home,
-  }))
-);
+const Register = lazy(() => import('pages/Register'));
+const Login = lazy(() => import('pages/Login'));
+const Contacts = lazy(() => import('pages/Contacts'));
+const Home = lazy(() => import('../../pages/Home/Home'));
 
 const App = () => {
   const isRefreshing = useSelector(selectIsRefreshing);
