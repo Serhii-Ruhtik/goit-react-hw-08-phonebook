@@ -6,7 +6,7 @@ import {
   changeContactData,
   deleteContact,
 } from '../../redux/contacts/operations';
-import { ModalWindow } from 'components/Modal/Modal';
+import ModalWindow from '../Modal/Modal';
 
 import {
   BtnsWrapper,

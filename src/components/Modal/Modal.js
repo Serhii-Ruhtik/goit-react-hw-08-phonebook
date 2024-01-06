@@ -1,63 +1,39 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import PropTypes from 'prop-types';
-import {
-  clearAllBodyScrollLocks,
-  disableBodyScroll,
-  enableBodyScroll,
-} from 'body-scroll-lock';
-import { AiOutlineCloseCircle } from 'react-icons/ai';
 
-import IconBtn from '../IconBtn/IconBtn';
-import { BackdropOver, ModalPaper } from './Modal.styled';
+import styles from '../Modal/Modal.module.css';
 
 const modalRoot = document.querySelector('#modal-root');
 
-export const ModalWindow = ({ children, onClose }) => {
-  const modalRef = useRef();
-
-  const closeModal = useCallback(() => {
-    enableBodyScroll(modalRef.current);
-    onClose();
-  }, [onClose]);
-
-  const onBackdropClickHandler = event => {
-    if (event.target === event.currentTarget) {
-      closeModal();
+const Modal = ({ onClose, children }) => {
+  const handleBackdropClick = event => {
+    if (event.currentTarget === event.target) {
+      onClose();
     }
   };
 
   useEffect(() => {
-    const onEscHandler = event => {
-      if (event.code === 'Escape') {
-        closeModal();
+    const handleKeyDown = e => {
+      if (e.code === 'Escape') {
+        console.log('натиснули esc');
+        onClose();
       }
     };
+    console.log('modal componentDidMount');
 
-    window.addEventListener('keydown', onEscHandler);
-    return () => window.removeEventListener('keydown', onEscHandler);
-  }, [closeModal]);
+    window.addEventListener('keydown', handleKeyDown);
 
-  useEffect(() => {
-    disableBodyScroll(modalRef.current);
-
-    return () => clearAllBodyScrollLocks();
-  }, []);
+    return () => {
+      console.log('modal componentWillUnmount');
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [onClose]);
 
   return createPortal(
-    <BackdropOver open={true} onClick={onBackdropClickHandler} ref={modalRef}>
-      <ModalPaper>
-        <IconBtn onClick={closeModal}>
-          <AiOutlineCloseCircle size="30px" />
-        </IconBtn>
-        {children}
-      </ModalPaper>
-    </BackdropOver>,
+    <div className={styles.Modal__backdrop} onClick={handleBackdropClick}>
+      <div className={styles.Modal__content}>{children}</div>
+    </div>,
     modalRoot
   );
 };
-
-ModalWindow.propTypes = {
-  children: PropTypes.node,
-  onClose: PropTypes.func,
-};
+export default Modal;
